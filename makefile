@@ -28,6 +28,9 @@ OBJ := $(SRC:$(SRCDIR)/%.cpp=$(OBJDIR)/%.o)
 # The compiler flags
 CXXFLAGS := -std=c++11 -pedantic-errors -Wall -Wextra -Werror
 
+# Build everything
+all: clean compile link
+
 # Compile source files into object files
 compile:
 	g++ $(CXXFLAGS) -o $(OBJ) -c $(SRC)
@@ -48,6 +51,3 @@ debug: all
 # Add releas flag and build all
 release: CXXFLAGS += -O2
 release: all
-
-# Build everything
-all: clean compile link

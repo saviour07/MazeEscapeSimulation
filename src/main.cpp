@@ -1,22 +1,25 @@
+#include <string>
+#include <iostream>
 #include "row.h"
 #include "player.h"
-
-using mes_row::Row;
-using mes_player::Player;
 
 void Simulate();
 
 int main()
 {
-    Row row;
+    mes_row::Row row;
     row.GenerateRows(10);
+    for (int i = 0; i < 10; ++i)
+    {
+        std::wcout << row.GetDirection(i).DirectionName() << std::endl;
+    }
 
     std::wcout << L"Press any key to exit..." << std::endl;
     std::cin.get();
     return 0;
 }
 
-bool Simulate(Row row, Player player)
+bool Simulate(mes_row::Row row, mes_player::Player player)
 {
    while (true)
     {

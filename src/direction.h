@@ -5,33 +5,42 @@
 
 namespace mes_direction
 {
-    enum Direction
+    class Direction
     {
-        North = 1,
-        South,
-        East,
-        West,
-        Out
-    };
+        public:
+            Direction(const int randomNumber);
 
-    std::wstring DirectionToString(Direction direction)
-    {
-        switch(direction)
-        {
-            case North:
-                return L"North";
-            case South:
-                return L"South";
-            case East:
-                return L"East";
-            case West:
-                return L"West";
-            case Out:
-                return L"Out";
-            default:
-                return L"DEFAULT";
-        }
-    }
+            std::wstring DirectionName();
+            
+            bool IsNorth();
+            bool IsEast();
+            bool IsSouth();
+            bool IsWest();
+            bool IsOut();
+
+            void ToNorth();
+            void ToEast();
+            void ToSouth();
+            void ToWest();
+            void ToOut();
+
+        private:
+            std::wstring mDirection;
+            const std::wstring mNorthString = L"North";
+            const std::wstring mSouthString = L"South";
+            const std::wstring mEastString = L"East";
+            const std::wstring mWestString = L"West";
+            const std::wstring mOutString = L"Out";
+
+            enum eDirections
+            {
+                North = 1,
+                South,
+                East,
+                West,
+                Out
+            };
+    };
 }
 
 #endif

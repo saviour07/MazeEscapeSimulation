@@ -2,26 +2,16 @@
 
 namespace mes_player
 {
-    using mes_direction::Direction;
-
-    void Player::MoveDirection(Direction direction)
+    void Player::MoveDirection(mes_direction::Direction direction)
     {
         mPreviousPosition = mCurrentPosition;
-        switch(direction)
+        if (direction.IsEast())
         {
-            // TODO: handle North, South, and Out
-            case Direction::East:
-            {
-                mCurrentPosition++;
-                break;
-            }
-            case Direction::West:
-            {
-                mCurrentPosition--;
-                break;
-            }
-            default:
-                break;
+            mCurrentPosition++;
+        }
+        if (direction.IsWest())
+        {
+            mCurrentPosition--;
         }
     }
 

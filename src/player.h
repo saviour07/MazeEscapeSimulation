@@ -8,7 +8,7 @@ namespace mes_player
     class Player
     {
     public:
-        void MoveDirection(Direction direction);
+        void MoveDirection(mes_direction::Direction direction);
         int GetCurrentPosition();
 
     private:

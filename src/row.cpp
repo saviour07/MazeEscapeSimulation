@@ -1,67 +1,46 @@
 #include "row.h"
-
+#include "rng.h"
 namespace mes_row
 {
     bool Row::IsOutsideMaze(int position)
     {
-        return mRow[position] == Direction::Out;
+        return mRow[position].IsOut();
     }
 
-    Direction Row::GetDirection(int position)
+    mes_direction::Direction Row::GetDirection(int position)
     {
         return mRow[position];
     }
 
-    void Row::UpdateDirection(int previousPosition)
+    void Row::UpdateDirection(const int previousPosition)
     {
-        const auto& direction = mRow[previousPosition];
-        switch(direction)
+        auto& direction = mRow[previousPosition];
+        if (direction.IsNorth())
         {
-            case Direction::North:
-            {
-                mRow[previousPosition] = Direction::East;
-                break;
-            }
-            case Direction::East:
-            {
-                mRow[previousPosition] = Direction::South;
-                break;
-            }
-            case Direction::South:
-            {
-                mRow[previousPosition] = Direction::West;
-                break;
-            }
-            case Direction::West:
-            {
-                mRow[previousPosition] = Direction::North;
-                break;
-            }
-            default:
-                break;
+            direction.ToEast();
+        }
+        if (direction.IsEast())
+        {
+            direction.ToSouth();
+        }
+        if (direction.IsSouth())
+        {
+            direction.ToWest();
+        }
+        if (direction.IsWest())
+        {
+            direction.ToNorth();
         }
     }
 
-    void Row::GenerateRows(int numberOfRows = 100)
+    void Row::GenerateRows(int numberOfRows)
     {
-        std::default_random_engine generator;
-        std::uniform_int_distribution<int> distribution(1,5);
         for (int i = 0; i < numberOfRows; ++i)
         {
-            int randomNumber = distribution(generator);
-            std::wcout << std::to_wstring(randomNumber) << std::endl;
-            auto dir = static_cast<Direction>(randomNumber);
-            std::wcout << DirectionToString(dir) << std::endl;
-
-            mRow[i] = dir;  // Segmentation fault on second iteration
-        }
-    }
-
-    void Row::PrintRows()
-    {
-        for (auto i = 0; i < mRow.size(); ++i)
-        {
-            std::wcout << DirectionToString(mRow[i]) << std::endl;
+            mes_rng::Rng rng;
+            const auto randomNumber = rng.GenerateNumber(1, 5);
+            mes_direction::Direction dir(randomNumber);
+            mRow.push_back(dir);
         }
     }
 }

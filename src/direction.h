@@ -10,19 +10,19 @@ namespace mes_direction
         public:
             Direction(const int randomNumber);
 
-            std::wstring DirectionName();
+            const std::wstring& DirectionName() const { return mDirection; }
             
-            bool IsNorth();
-            bool IsEast();
-            bool IsSouth();
-            bool IsWest();
-            bool IsOut();
+            bool IsNorth() const { return mDirection.compare(mNorthString) == 0; }
+            bool IsEast() const { return mDirection.compare(mEastString) == 0; }
+            bool IsSouth() const { return mDirection.compare(mSouthString) == 0; }
+            bool IsWest() const { return mDirection.compare(mWestString) == 0; }
+            bool IsOut() const { return mDirection.compare(mOutString) == 0; }
 
-            void ToNorth();
-            void ToEast();
-            void ToSouth();
-            void ToWest();
-            void ToOut();
+            void ToNorth() { mDirection = mNorthString; }
+            void ToEast() { mDirection = mEastString; }
+            void ToSouth() { mDirection = mSouthString; }
+            void ToWest() { mDirection = mWestString; }
+            void ToOut() { mDirection = mOutString; }
 
         private:
             std::wstring mDirection;

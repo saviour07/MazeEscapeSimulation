@@ -1,18 +1,11 @@
 #include "row.h"
 #include "rng.h"
+
+#include <iostream>
+
 namespace mes_row
 {
-    bool Row::IsOutsideMaze(int position)
-    {
-        return mRow[position].IsOut();
-    }
-
-    mes_direction::Direction Row::GetDirection(int position)
-    {
-        return mRow[position];
-    }
-
-    void Row::UpdateDirection(const int previousPosition)
+    mes_direction::Direction Row::UpdateDirection(const int previousPosition)
     {
         auto& direction = mRow[previousPosition];
         if (direction.IsNorth())
@@ -31,16 +24,27 @@ namespace mes_row
         {
             direction.ToNorth();
         }
+        return direction;
     }
 
-    void Row::GenerateRows(int numberOfRows)
+    void Row::GenerateRow(const int rowIdx, const int numberOfRows, const int numberOfCols)
     {
-        for (int i = 0; i < numberOfRows; ++i)
+        for (int colIdx = 0; colIdx < numberOfCols; ++colIdx)
         {
-            mes_rng::Rng rng;
-            const auto randomNumber = rng.GenerateNumber(1, 5);
-            mes_direction::Direction dir(randomNumber);
-            mRow.push_back(dir);
+            if (rowIdx == 0 || rowIdx == numberOfRows - 1
+            || colIdx == 0 || colIdx == numberOfCols - 1)
+            {
+                auto dir = mes_direction::Direction(0);
+                dir.ToOut();
+                mRow.push_back(dir);
+            }
+            else
+            {
+                mes_rng::Rng rng;
+                const auto randomNumber = rng.GenerateNumber(1, 4);
+                mes_direction::Direction dir(randomNumber);
+                mRow.push_back(dir);
+            }
         }
     }
 }

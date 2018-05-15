@@ -1,42 +1,38 @@
 #include <string>
 #include <iostream>
-#include "row.h"
 #include "player.h"
+#include "maze.h"
 
-void Simulate();
+bool Simulate(mes_maze::Maze& maze, mes_player::Player player);
 
 int main()
 {
-    mes_row::Row row;
-    row.GenerateRows(10);
-    for (int i = 0; i < 10; ++i)
+    mes_maze::Maze maze;
+    maze.GenerateMaze(12, 12);
+
+    mes_player::Player player(12);
+    std::wcout << L"Start X: " << player.XPos() << std::endl;
+    std::wcout << L"Start Y: " << player.YPos() << std::endl;
+
+    if (Simulate(maze, player))
     {
-        std::wcout << row.GetDirection(i).DirectionName() << std::endl;
+        std::wcout << L"Out" << std::endl;
     }
 
-    std::wcout << L"Press any key to exit..." << std::endl;
     std::cin.get();
     return 0;
 }
 
-bool Simulate(mes_row::Row row, mes_player::Player player)
+bool Simulate(mes_maze::Maze& maze, mes_player::Player player)
 {
-   while (true)
+    int turn = 0;
+    while (!player.IsOutsideMaze(maze.Rows))
     {
-        // Get the players current position
-        const auto currentPosition = player.GetCurrentPosition();
-        if (row.IsOutsideMaze(currentPosition))
-        {
-            return true;
-        }
+        std::wcout << L"Turn: " << std::to_wstring(++turn) << std::endl;
+        player.MoveDirection(maze.Rows);
 
-        // Get the direction of the square the player is on
-        const auto direction = row.GetDirection(currentPosition);
-
-        // Move the player in the direction the square is pointing
-        player.MoveDirection(direction);
-
-        // Change the direction of the square the player was previously on
-        row.UpdateDirection(currentPosition);
+        std::wcout << L"New X Pos: " << player.XPos() << std::endl;
+        std::wcout << L"New Y Pos: " << player.YPos() << std::endl;
     }
+    return true;
 }

@@ -5,46 +5,52 @@
 
 namespace mes_row
 {
-    mes_direction::Direction Row::UpdateDirection(const int previousPosition)
+    void Row::UpdateDirection(const int xPos)
     {
-        auto& direction = mRow[previousPosition];
+        auto& direction = mRow[xPos];
         if (direction.IsNorth())
         {
+            std::wcout << "Moving NORTH to EAST" << std::endl;
             direction.ToEast();
         }
-        if (direction.IsEast())
+        else if (direction.IsEast())
         {
+            std::wcout << "Moving EAST to SOUTH" << std::endl;
             direction.ToSouth();
         }
-        if (direction.IsSouth())
+        else if (direction.IsSouth())
         {
+            std::wcout << "Moving SOUTH to WEST" << std::endl;
             direction.ToWest();
         }
-        if (direction.IsWest())
+        else if (direction.IsWest())
         {
+            std::wcout << "Moving WEST to NORTH" << std::endl;
             direction.ToNorth();
         }
-        return direction;
+        else if (direction.IsOut())
+        {
+            std::wcout << "OUT - Nothing to do!" << std::endl;
+        }
     }
 
     void Row::GenerateRow(const int rowIdx, const int numberOfRows, const int numberOfCols)
     {
         for (int colIdx = 0; colIdx < numberOfCols; ++colIdx)
         {
-            if (rowIdx == 0 || rowIdx == numberOfRows - 1
-            || colIdx == 0 || colIdx == numberOfCols - 1)
+            mes_direction::Direction dir;
+            if (rowIdx == 0 || rowIdx == numberOfRows - 1   // Is first or last row
+            || colIdx == 0 || colIdx == numberOfCols - 1)   // Is first or last direction
             {
-                auto dir = mes_direction::Direction(0);
                 dir.ToOut();
-                mRow.push_back(dir);
             }
             else
             {
                 mes_rng::Rng rng;
                 const auto randomNumber = rng.GenerateNumber(1, 4);
-                mes_direction::Direction dir(randomNumber);
-                mRow.push_back(dir);
+                dir.StartDirection(randomNumber);
             }
+            mRow.push_back(dir);
         }
     }
 }

@@ -6,39 +6,46 @@
 
 namespace mes_player
 {
-    Player::Player(const int mazeSize)
+    PlayerPosition Player::StartPosition(const mes_maze::Grid& rows)
     {
+        // Account for the maze having a row of OUT directions at the top and bottom
+        // Also account for the maze having a column of OUT directions at either side
+        const int max = rows.size() - 2;
         {
             mes_rng::Rng rng;
-            mCurrentXPosition = rng.GenerateNumber(1, mazeSize - 1);
+            mCurrentXPosition = rng.GenerateNumber(1, max);
         }
         {
             mes_rng::Rng rng;
-            mCurrentYPosition = rng.GenerateNumber(1, mazeSize - 1);
+            mCurrentYPosition = rng.GenerateNumber(1, max);
         }
+
+        PlayerPosition result;
+        result.X = mCurrentXPosition;
+        result.Y = mCurrentYPosition;
+        return result;
     }
 
     bool Player::IsOutsideMaze(mes_maze::Grid& rows)
     {
-        auto row = rows.at(mCurrentYPosition);
-        std::wcout << L"mCurrentYPosition: " << std::to_wstring(mCurrentYPosition) << std::endl;
-        auto dirs = row.RowDirections();
+        auto dirs = rows.at(mCurrentYPosition).GetDirections();
+        const auto dir = dirs.at(mCurrentXPosition);
+        std::wcout << L"Direction Name: " << dir.DirectionName() << std::endl;
+        return dir.IsOut();
+    }
+
+    PlayerPosition Player::MoveDirection(mes_maze::Grid& rows)
+    {
+        const auto previousYPos = mCurrentYPosition;
+        const auto previousXPos = mCurrentXPosition;
+
+        auto dirs = rows.at(mCurrentYPosition).GetDirections();
         for (const auto& dir : dirs)
         {
             std::wcout << dir.DirectionName() << L" ";
         }
         std::wcout << std::endl;
-        std::wcout << L"mCurrentXPosition: " << std::to_wstring(mCurrentXPosition) << std::endl;
-        const auto dir = dirs[mCurrentXPosition];
-        std::wcout << L"Direction Name: " << dir.DirectionName() << std::endl;
-        return dir.IsOut();
-    }
-
-    void Player::MoveDirection(mes_maze::Grid& rows)
-    {
-        mPreviousXPosition = mCurrentXPosition;
-        mPreviousYPosition = mCurrentYPosition;
-        auto direction = rows.at(mPreviousYPosition).UpdateDirection(mPreviousXPosition);
+        auto direction = dirs.at(mCurrentXPosition);
         if (direction.IsNorth())
         {
             std::wcout << L"Moving UP" << std::endl;
@@ -59,5 +66,17 @@ namespace mes_player
             std::wcout << L"Moving LEFT" << std::endl;
             mCurrentXPosition--;
         }
+        if (direction.IsOut())
+        {
+            std::wcout << L"Moving OUT" << std::endl;
+            mCurrentXPosition = 0;
+            mCurrentYPosition = 0;
+        }
+        rows.at(previousYPos).UpdateDirection(previousXPos);
+
+        PlayerPosition result;
+        result.X = mCurrentXPosition;
+        result.Y = mCurrentYPosition;
+        return result;
     }
 }

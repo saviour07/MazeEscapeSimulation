@@ -8,7 +8,7 @@ namespace mes_direction
     class Direction
     {
         public:
-            Direction(const int randomNumber);
+            void StartDirection(const int idx);
 
             const std::wstring& DirectionName() const { return mDirection; }
             
@@ -31,15 +31,6 @@ namespace mes_direction
             const std::wstring mEastString = L"East";
             const std::wstring mWestString = L"West";
             const std::wstring mOutString = L"Out";
-
-            enum eDirections
-            {
-                North = 1,
-                South,
-                East,
-                West,
-                Out
-            };
     };
 }
 

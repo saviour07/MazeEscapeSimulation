@@ -2,9 +2,9 @@
 
 namespace mes_direction
 {
-    Direction::Direction(const int randomNumber)
+    void Direction::StartDirection(const int idx)
     {
-        switch (randomNumber)
+        switch (idx)
         {
             case 1:
             {

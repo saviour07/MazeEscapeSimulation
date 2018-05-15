@@ -5,19 +5,21 @@
 
 namespace mes_player
 {
+    struct PlayerPosition
+    {
+        int X;
+        int Y;
+    };
+
     class Player
     {
     public:
-        Player(int mazeSize);
+        PlayerPosition StartPosition(const mes_maze::Grid& mazeGrid);
         bool IsOutsideMaze(mes_maze::Grid& mazeGrid);
-        void MoveDirection(mes_maze::Grid& mazeGrid);
-        const int& XPos() { return mCurrentXPosition; }
-        const int& YPos() { return mCurrentYPosition; }
+        PlayerPosition MoveDirection(mes_maze::Grid& mazeGrid);
 
     private:
-        int mPreviousXPosition = 1;
         int mCurrentXPosition = 1;
-        int mPreviousYPosition = 1;
         int mCurrentYPosition = 1;
     };
 }

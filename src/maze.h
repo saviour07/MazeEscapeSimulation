@@ -2,7 +2,6 @@
 #define _MAZE_H_H
 
 #include <vector>
-#include <iostream>
 #include "row.h"
 
 namespace mes_maze
@@ -13,9 +12,6 @@ namespace mes_maze
         public:
             void GenerateMaze(const int rows, const int cols);
             Grid Rows;
-
-        private:
-            void PrintRows() const;
     };
 }
 

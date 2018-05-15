@@ -6,16 +6,18 @@
 
 namespace mes_row
 {
+    typedef std::vector<mes_direction::Direction> Directions;
     class Row
     {
     public:
-        mes_direction::Direction UpdateDirection(const int previousPosition);
+        void UpdateDirection(const int xPos);
         void GenerateRow(const int rowIdx, const int numberOfRows, const int numberOfCols);
+
         size_t Count() const { return mRow.size(); }
-        const std::vector<mes_direction::Direction>& RowDirections() const { return mRow; }
+        const Directions& GetDirections() const { return mRow; }
 
     private:
-        std::vector<mes_direction::Direction> mRow;
+        Directions mRow;
     };
 }
 

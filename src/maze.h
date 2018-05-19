@@ -2,6 +2,7 @@
 
 #include <vector>
 #include "row.h"
+#include "ILogger.h"
 
 namespace mes_maze
 {
@@ -9,8 +10,8 @@ namespace mes_maze
     class Maze
     {
         public:
-            Maze(const int rowCount, const int colCount)
-                : mRowCount(rowCount + 2), mColCount(colCount + 2)
+            Maze(mes_ilogger::ILogger& logger, const int rowCount, const int colCount)
+                : mLogger(logger), mRowCount(rowCount + 2), mColCount(colCount + 2)
             {
             }
             void GenerateMaze();
@@ -20,6 +21,7 @@ namespace mes_maze
             const int& ColCount() { return mColCount; }
 
         private:
+            mes_ilogger::ILogger& mLogger;
             int mRowCount;
             int mColCount;
 

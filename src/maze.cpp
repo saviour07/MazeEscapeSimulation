@@ -7,7 +7,7 @@ namespace mes_maze
     {
         for (int rowIdx = 0; rowIdx < mRowCount; ++rowIdx)
         {
-            mes_row::Row row(rowIdx, rowIdx == mRowCount - 1);
+            mes_row::Row row(mLogger, rowIdx, rowIdx == mRowCount - 1);
             row.GenerateRow(mColCount);
             Rows.push_back(row);
         }
@@ -22,15 +22,16 @@ namespace mes_maze
             for (const auto& dir : row.GetDirections())
             {
                 const auto name = dir.DirectionName();
-                std::wcout << name;
+                mLogger.Write(name, false);
+
                 auto len = name.size();
                 while (len < 6)
                 {
-                    std::wcout << " ";
+                    mLogger.Write(L" ", false);
                     len++;
                 }
             }
-            std::wcout << std::endl;
+            mLogger.Write(L"", true);
         }
     }
 }

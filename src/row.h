@@ -2,6 +2,7 @@
 
 #include <vector>
 #include "direction.h"
+#include "ILogger.h"
 
 namespace mes_row
 {
@@ -9,8 +10,8 @@ namespace mes_row
     class Row
     {
     public:
-        Row(const int rowNumber, const bool isLastRow = false)
-            : mRowNumber(rowNumber), mIsLastRow(isLastRow)
+        Row(mes_ilogger::ILogger& logger, const int rowNumber, const bool isLastRow = false)
+            : mLogger(logger), mRowNumber(rowNumber), mIsLastRow(isLastRow)
         {
         }
         void UpdateDirection(const int xPos);
@@ -20,6 +21,7 @@ namespace mes_row
         const Directions& GetDirections() const { return mRow; }
 
     private:
+        mes_ilogger::ILogger& mLogger;
         int mRowNumber = 0;
         bool mIsLastRow = false;
         Directions mRow;

@@ -1,8 +1,7 @@
+#include <sstream>
 #include "player.h"
 #include "rng.h"
 #include "direction.h"
-
-#include <iostream>
 
 namespace mes_player
 {
@@ -27,7 +26,11 @@ namespace mes_player
     {
         const auto dirs = rows.at(mCurrentYPosition).GetDirections();
         const auto dir = dirs.at(mCurrentXPosition);
-        std::wcout << L"Direction Name: " << dir.DirectionName() << std::endl;
+
+        std::wstringstream directionMsg;
+        directionMsg << L"Direction Name: " << dir.DirectionName();
+        mLogger.Write(directionMsg.str(), true);
+
         return dir.IsOut();
     }
 
@@ -39,33 +42,37 @@ namespace mes_player
         auto dirs = rows.at(mCurrentYPosition).GetDirections();
         PrintDirections(dirs);
 
+        std::wstringstream directionMsg;
+
         const auto direction = dirs.at(mCurrentXPosition);
         if (direction.IsNorth())
         {
-            std::wcout << L"Moving UP" << std::endl;
+            directionMsg << L"Moving UP";
             mCurrentYPosition--;
         }
         if (direction.IsEast())
         {
-            std::wcout << L"Moving RIGHT" << std::endl;
+            directionMsg << L"Moving RIGHT";
             mCurrentXPosition++;
         }
         if (direction.IsSouth())
         {
-            std::wcout << L"Moving DOWN" << std::endl;
+            directionMsg << L"Moving DOWN";
             mCurrentYPosition++;
         }
         if (direction.IsWest())
         {
-            std::wcout << L"Moving LEFT" << std::endl;
+            directionMsg << L"Moving LEFT";
             mCurrentXPosition--;
         }
         if (direction.IsOut())
         {
-            std::wcout << L"Moving OUT" << std::endl;
+            directionMsg << L"Moving OUT";
             mCurrentXPosition = 0;
             mCurrentYPosition = 0;
         }
+        mLogger.Write(directionMsg.str(), true);
+
         rows.at(previousYPos).UpdateDirection(previousXPos);
 
         PlayerPosition result;
@@ -78,8 +85,10 @@ namespace mes_player
     {
         for (const auto& dir : directions)
         {
-            std::wcout << dir.DirectionName() << L" ";
+            std::wstringstream msg;
+            msg << dir.DirectionName() << L" ";
+            mLogger.Write(msg.str(), false);
         }
-        std::wcout << std::endl;
+        mLogger.Write(L"", true);
     }
 }

@@ -14,8 +14,8 @@ namespace mes_player
     {
     public:
         PlayerPosition StartPosition(const int rowSize, const int colSize);
-        bool IsOutsideMaze(mes_maze::Grid& mazeGrid);
-        PlayerPosition MoveDirection(mes_maze::Grid& mazeGrid);
+        bool IsOutsideMaze(const mes_maze::Grid& rows);
+        PlayerPosition MoveDirection(mes_maze::Grid& rows);
 
     private:
         int mCurrentXPosition = 1;

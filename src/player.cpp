@@ -10,11 +10,11 @@ namespace mes_player
     {;
         {
             mes_rng::Rng rng;
-            mCurrentYPosition = rng.GenerateNumber(1, rowSize - 1);
+            mCurrentYPosition = rng.GenerateNumber(1, rowSize - 2);
         }
         {
             mes_rng::Rng rng;
-            mCurrentXPosition = rng.GenerateNumber(1, colSize - 1);
+            mCurrentXPosition = rng.GenerateNumber(1, colSize - 2);
         }
 
         PlayerPosition result;
@@ -23,7 +23,7 @@ namespace mes_player
         return result;
     }
 
-    bool Player::IsOutsideMaze(mes_maze::Grid& rows)
+    bool Player::IsOutsideMaze(const mes_maze::Grid& rows)
     {
         const auto dirs = rows.at(mCurrentYPosition).GetDirections();
         const auto dir = dirs.at(mCurrentXPosition);
@@ -43,7 +43,7 @@ namespace mes_player
         if (direction.IsNorth())
         {
             std::wcout << L"Moving UP" << std::endl;
-            mCurrentYPosition++;
+            mCurrentYPosition--;
         }
         if (direction.IsEast())
         {
@@ -53,7 +53,7 @@ namespace mes_player
         if (direction.IsSouth())
         {
             std::wcout << L"Moving DOWN" << std::endl;
-            mCurrentYPosition--;
+            mCurrentYPosition++;
         }
         if (direction.IsWest())
         {

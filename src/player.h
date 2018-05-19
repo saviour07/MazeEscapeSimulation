@@ -1,5 +1,4 @@
-#ifndef _PLAYER_H_
-#define _PLAYER_H_
+#pragma once
 
 #include "maze.h"
 
@@ -14,14 +13,14 @@ namespace mes_player
     class Player
     {
     public:
-        PlayerPosition StartPosition(const mes_maze::Grid& mazeGrid);
+        PlayerPosition StartPosition(const int rowSize, const int colSize);
         bool IsOutsideMaze(mes_maze::Grid& mazeGrid);
         PlayerPosition MoveDirection(mes_maze::Grid& mazeGrid);
 
     private:
         int mCurrentXPosition = 1;
         int mCurrentYPosition = 1;
+
+        void PrintDirections(const mes_row::Directions& directions);
     };
 }
-
-#endif

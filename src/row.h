@@ -1,5 +1,4 @@
-#ifndef _ROW_H_
-#define _ROW_H_
+#pragma once
 
 #include <vector>
 #include "direction.h"
@@ -10,15 +9,19 @@ namespace mes_row
     class Row
     {
     public:
+        Row(const int rowNumber, const bool isLastRow = false)
+            : mRowNumber(rowNumber), mIsLastRow(isLastRow)
+        {
+        }
         void UpdateDirection(const int xPos);
-        void GenerateRow(const int rowIdx, const int numberOfRows, const int numberOfCols);
+        void GenerateRow(const int numberOfCols);
 
         size_t Count() const { return mRow.size(); }
         const Directions& GetDirections() const { return mRow; }
 
     private:
+        int mRowNumber = 0;
+        bool mIsLastRow = false;
         Directions mRow;
     };
 }
-
-#endif

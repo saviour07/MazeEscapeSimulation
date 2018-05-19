@@ -1,5 +1,4 @@
-#ifndef _MAZE_H_H
-#define _MAZE_H_H
+#pragma once
 
 #include <vector>
 #include "row.h"
@@ -10,9 +9,20 @@ namespace mes_maze
     class Maze
     {
         public:
-            void GenerateMaze(const int rows, const int cols);
+            Maze(const int rowCount, const int colCount)
+                : mRowCount(rowCount + 2), mColCount(colCount + 2)
+            {
+            }
+            void GenerateMaze();
             Grid Rows;
+
+            const int& RowCount() { return mRowCount; }
+            const int& ColCount() { return mColCount; }
+
+        private:
+            int mRowCount;
+            int mColCount;
+
+            void PrintMaze();
     };
 }
-
-#endif

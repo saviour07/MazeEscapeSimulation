@@ -6,18 +6,15 @@
 
 namespace mes_player
 {
-    PlayerPosition Player::StartPosition(const mes_maze::Grid& rows)
-    {
-        // Account for the maze having a row of OUT directions at the top and bottom
-        // Also account for the maze having a column of OUT directions at either side
-        const int max = rows.size() - 2;
+    PlayerPosition Player::StartPosition(const int rowSize, const int colSize)
+    {;
         {
             mes_rng::Rng rng;
-            mCurrentXPosition = rng.GenerateNumber(1, max);
+            mCurrentYPosition = rng.GenerateNumber(1, rowSize - 1);
         }
         {
             mes_rng::Rng rng;
-            mCurrentYPosition = rng.GenerateNumber(1, max);
+            mCurrentXPosition = rng.GenerateNumber(1, colSize - 1);
         }
 
         PlayerPosition result;
@@ -28,7 +25,7 @@ namespace mes_player
 
     bool Player::IsOutsideMaze(mes_maze::Grid& rows)
     {
-        auto dirs = rows.at(mCurrentYPosition).GetDirections();
+        const auto dirs = rows.at(mCurrentYPosition).GetDirections();
         const auto dir = dirs.at(mCurrentXPosition);
         std::wcout << L"Direction Name: " << dir.DirectionName() << std::endl;
         return dir.IsOut();
@@ -40,12 +37,9 @@ namespace mes_player
         const auto previousXPos = mCurrentXPosition;
 
         auto dirs = rows.at(mCurrentYPosition).GetDirections();
-        for (const auto& dir : dirs)
-        {
-            std::wcout << dir.DirectionName() << L" ";
-        }
-        std::wcout << std::endl;
-        auto direction = dirs.at(mCurrentXPosition);
+        PrintDirections(dirs);
+
+        const auto direction = dirs.at(mCurrentXPosition);
         if (direction.IsNorth())
         {
             std::wcout << L"Moving UP" << std::endl;
@@ -78,5 +72,14 @@ namespace mes_player
         result.X = mCurrentXPosition;
         result.Y = mCurrentYPosition;
         return result;
+    }
+
+    void Player::PrintDirections(const mes_row::Directions& directions)
+    {
+        for (const auto& dir : directions)
+        {
+            std::wcout << dir.DirectionName() << L" ";
+        }
+        std::wcout << std::endl;
     }
 }

@@ -34,12 +34,12 @@ namespace mes_row
         }
     }
 
-    void Row::GenerateRow(const int rowIdx, const int numberOfRows, const int numberOfCols)
+    void Row::GenerateRow(const int numberOfCols)
     {
         for (int colIdx = 0; colIdx < numberOfCols; ++colIdx)
         {
             mes_direction::Direction dir;
-            if (rowIdx == 0 || rowIdx == numberOfRows - 1   // Is first or last row
+            if (mRowNumber == 0 || mIsLastRow               // Is first or last row
             || colIdx == 0 || colIdx == numberOfCols - 1)   // Is first or last direction
             {
                 dir.ToOut();

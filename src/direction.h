@@ -1,5 +1,4 @@
-#ifndef _DIRECTION_H_
-#define _DIRECTION_H_
+#pragma once
 
 #include <string>
 
@@ -33,5 +32,3 @@ namespace mes_direction
             const std::wstring mOutString = L"Out";
     };
 }
-
-#endif

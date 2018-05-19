@@ -1,5 +1,4 @@
-#ifndef _RNG_H_
-#define _RNG_H_
+#pragma once
 
 #include <random>
 
@@ -17,5 +16,3 @@ namespace mes_rng
             }
     };
 }
-
-#endif

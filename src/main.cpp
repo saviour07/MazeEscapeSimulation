@@ -7,11 +7,11 @@ bool Simulate(mes_maze::Maze& maze, mes_player::Player player);
 
 int main()
 {
-    mes_maze::Maze maze;
-    maze.GenerateMaze(12, 12);
+    mes_maze::Maze maze(10, 10);
+    maze.GenerateMaze();
 
     mes_player::Player player;
-    const auto& startPosition = player.StartPosition(maze.Rows);
+    const auto& startPosition = player.StartPosition(maze.RowCount(), maze.ColCount());
     std::wcout << L"Start Y: " << startPosition.Y << std::endl;
     std::wcout << L"Start X: " << startPosition.X << std::endl;
 
@@ -20,7 +20,6 @@ int main()
         std::wcout << L"Out" << std::endl;
     }
 
-    std::cin.get();
     return 0;
 }
 
